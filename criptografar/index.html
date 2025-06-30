@@ -4,16 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"> 
-    <title>Criptografia Hash Bcrypt</title>
+    <title>Criptografia</title>
 </head>
 <body>
     <header>
         <h1>Digite sua senha para criar sua criptografia</h1>
     </header>
 
+    <script>
+        if (localStorage.getItem('logado') !== 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
+
     <div class="container">
-        <div class="form-group"></div>
-    </div>
+<div class="form-group">
+    <input type="password" id="senha" placeholder="Digite sua senha">
+    <button onclick="gerarHash()">Gerar Hash</button>
+    <p id="resultado"></p>
+    <hr>
+     <button class="btn" onclick="home.html()">Testar</button>
+</div>
     
+    
+    <script>
+async function gerarHash() {
+    const senha = document.getElementById('senha').value;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(senha);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    document.getElementById('resultado').textContent = 'Hash SHA-256: ' + hashHex;
+}
+</script>
 </body>
 </html>
